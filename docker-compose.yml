@@ -1,0 +1,25 @@
+version: '3'
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "3000:3000"  # Expone el puerto 3000 para el backend
+    volumes:
+      - ./backend:/usr/src/app  # Monta la carpeta backend en el contenedor
+      - /usr/src/app/node_modules  # Evita que sobrescribas node_modules
+    environment:
+      - NODE_ENV=development
+    command: npm start
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3001:3000"  # Mapea el puerto 3001 para el frontend (que internamente corre en el 3000)
+    volumes:
+      - ./frontend:/usr/src/app  # Monta la carpeta frontend en el contenedor
+      - /usr/src/app/node_modules  # Evita que sobrescribas node_modules
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - backend  # Asegura que el backend esté arriba antes del frontend
+    command: npm start
