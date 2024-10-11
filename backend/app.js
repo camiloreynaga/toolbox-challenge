@@ -1,10 +1,17 @@
 const express = require('express');
+const cors = require('cors');
 const axios = require('axios');
 const app = express();
 const PORT = 3000;
 
 const externalApiUrl = 'https://echo-serv.tbxnet.com/v1/secret';
 const apiKey = 'Bearer aSuperSecretKey';
+
+// Habilitar CORS para permitir peticiones desde el frontend
+app.use(cors({
+  origin: 'http://localhost:3001'
+}));
+
 
 app.get('/files/data', async (req, res) => {
   try {
